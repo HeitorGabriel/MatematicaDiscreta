@@ -1,6 +1,9 @@
+from copy import deepcopy
+from itertools import combinations
 class Conjunto():
-    def __init__(self):
+    def __init__(self, nome=None):
         self.conjunto = []
+        self.nome = nome
 
     def adicionar(self, valor):
         if valor not in self.conjunto:
@@ -9,24 +12,31 @@ class Conjunto():
     def remover(self, valor):
         if valor in self.conjunto:
             self.conjunto.remove(valor)
-        else:
-            raise "Valor não está no conjunto"
 
     def pertinencia(self, valor):
         return valor in self.conjunto
 
-    def contido(self, conjunto):
+    def __Contido(self, conjunto):
         for e in self.conjunto:
             if not conjunto.pertinencia(e):
                 return False
         return True
+
+    def contido(self, conjunto):
+        if len(conjunto.conjunto) == len(self.conjunto):
+            return self.__Contido(conjunto)
+        return False
             
-    def contitoPropriamente(self, subconjunto):
-        return self.contido(subconjunto)
+    def contidoPropriamente(self, conjunto):
+        if len(conjunto.conjunto) > len(self.conjunto):
+            return self.__Contido(conjunto)
+        return False
 
     def uniao(self, subconjunto):
+        conjuntoResultante = deepcopy(self)
         for e in subconjunto.conjunto:
-            self.adicionar(e)
+            conjuntoResultante.adicionar(e)
+        return conjuntoResultante
 
     def interseccao(self, subconjunto):
         conjuntoResultante = Conjunto()
@@ -51,36 +61,40 @@ class Conjunto():
         for e in self.conjunto:
             for e2 in subconjunto.conjunto:
                 conjuntoResultante.adicionar((e,e2))
-        return conjuntoResultante                                          
-                
+        return conjuntoResultante
+
+    def conjuntoDasPartes(self):
+        conjuntoResultante = Conjunto()
+        for i in range(1,len(self.conjunto)+1):
+            for e in list(combinations(self.conjunto,i)):
+                c = Conjunto()
+                c.adicionar(e)
+                conjuntoResultante.adicionar(c)
+        c = Conjunto()
+        conjuntoResultante.adicionar(c)
+        return conjuntoResultante
+            
+            
+        
+    def uniaoDisjunta(self, conjunto):
+        conjuntoResultante = Conjunto()
+        num = len(self.conjunto) if len(self.conjunto) >= len(conjunto.conjunto) else len(conjunto.conjunto)
+        for i in range(num):
+            try:
+                conjuntoResultante.conjunto.append((self.conjunto[i], self.nome))
+            except IndexError:
+                pass
+            try:
+                conjuntoResultante.conjunto.append((conjunto.conjunto[i], conjunto.nome))
+            except IndexError:
+                pass
+        return conjuntoResultante
+            
 
     def imprimir(self):
         for e in self.conjunto:
             print(e)
         
     
-
-
-A = Conjunto()
-A.adicionar(4)
-A.adicionar(5)
-
-B = Conjunto()
-B.adicionar(4)
-B.adicionar(5)
-B.adicionar(6)
-B.adicionar(7)
-B.adicionar(8)
-
-##A.imprimir()
-            
-##C = A.interseccao(B)
-##C.imprimir()
-
-##D = B.diferenca(A)
-##D.imprimir()
-
-E = A.produtoCartesiano(B)
-E.imprimir()
 
 
