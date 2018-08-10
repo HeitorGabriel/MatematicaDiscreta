@@ -1,8 +1,7 @@
-from copy import deepcopy
 from itertools import combinations
 class Conjunto():
-    def __init__(self, nome=None):
-        self.conjunto = []
+    def __init__(self, conjunto = [], nome=None):
+        self.conjunto = conjunto
         self.nome = nome
 
     def adicionar(self, valor):
@@ -33,7 +32,7 @@ class Conjunto():
         return False
 
     def uniao(self, subconjunto):
-        conjuntoResultante = deepcopy(self)
+        conjuntoResultante = Conjunto(conjunto=self.conjunto)
         for e in subconjunto.conjunto:
             conjuntoResultante.adicionar(e)
         return conjuntoResultante
@@ -96,5 +95,3 @@ class Conjunto():
             print(e)
         
     
-
-
