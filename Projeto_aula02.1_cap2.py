@@ -63,14 +63,11 @@ class Conjunto():
         return conjuntoResultante
 
     def conjuntoDasPartes(self):
-        conjuntoResultante = Conjunto()
+        conjuntoResultante = Conjunto(conjunto=[Conjunto()])
         for i in range(1,len(self.conjunto)+1):
             for e in list(combinations(self.conjunto,i)):
-                c = Conjunto()
-                c.adicionar(e)
+                c = Conjunto(conjunto=list(e))
                 conjuntoResultante.adicionar(c)
-        c = Conjunto()
-        conjuntoResultante.adicionar(c)
         return conjuntoResultante
             
             
@@ -92,6 +89,18 @@ class Conjunto():
 
     def imprimir(self):
         for e in self.conjunto:
-            print(e)
+            if isinstance(e, Conjunto):
+                print(e.conjunto, end=", ")
+            else:
+                print(e, end=", ")
+            
         
     
+
+A = Conjunto(conjunto=[1,2], nome="A")
+B = A.conjuntoDasPartes()
+
+
+for e in B.conjunto:
+    print(e.conjunto)
+
