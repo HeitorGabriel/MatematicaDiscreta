@@ -95,12 +95,5 @@ class Conjunto():
                 print(e, end=", ")
             
         
-    
 
-A = Conjunto(conjunto=[1,2], nome="A")
-B = A.conjuntoDasPartes()
-
-
-for e in B.conjunto:
-    print(e.conjunto)
 
